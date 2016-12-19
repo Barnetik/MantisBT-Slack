@@ -278,7 +278,11 @@ class SlackPlugin extends MantisPlugin {
         if ($attachment) {
             $payload['attachments'] = array($attachment);
         }
-        $data = array('payload' => json_encode($payload));
+        $data = json_encode($payload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data))
+        );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
